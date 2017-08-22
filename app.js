@@ -40,6 +40,27 @@ app.post('/create', function(req, res) {
 
 });
 
+app.post('/update', function(req, res) {
+  var post = {
+    title: req.body.title,
+    body: req.body.body
+  };
+
+  Post.findById(req.body.id, function(err, doc) {
+    if (err) {
+      console.log(err);
+    } else {
+      doc.title = req.body.title;
+      doc.body = req.body.body;
+      doc.save();
+    }
+
+  });
+
+  res.redirect('/read');
+
+});
+
 app.get('/read', function(req, res) {
   Post.find().then(function(doc) {
     res.send(doc);
